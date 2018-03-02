@@ -73,6 +73,17 @@ class V3toysComponent extends Component
                         }
                     }
                 }
+                if (preg_match('/s*[AaАа]\s*(\d+)\s*$/', $query, $matches)) {
+                    if (isset($matches[1])) {
+                        $query = \v3toys\skeeks\models\V3toysProductContentElement::find()
+                            ->joinWith('v3toysProductProperty as p')
+                            ->andWhere(['p.sku' => $matches[1]]);
+                        if ($element = $query->one()) {
+                            \Yii::$app->response->redirect($element->url);
+                            //\Yii::$app->end();
+                        }
+                    }
+                }
             });
 
 
